@@ -1,72 +1,28 @@
 import html2json from "./lib/html2json";
+import domCreate from "./lib/createDom";
+import ComponentController from "./lib/ComponentController";
 
-let obj = html2json(document.getElementsByTagName("component")[0])
-
-var no = 1;
-console.log("Nó numero ", no)
+const { addComponent, components } = ComponentController
 
 
-const root = document.getElementById("02")
-
-var no = 0;
-
-function createElement(obj,pai) {
+class Component {
     
-    const { type } = obj;
+    constructor(name) {
 
-    if (type === "Elem") {
-        
-        console.log("Nome da tag ", obj.tagName)
-
-        let element = document.createElement(obj.tagName)
-        pai.appendChild(element)
-
-        console.log(pai)
-
-        //cria os atributos
-        const { attributes } = obj;
-
-        for (let att in attributes) {
-            const [name, value] = attributes[att];
-
-            element.setAttribute(name, value);
-        }
-
-        
-        //console.log(element)
-
-        //pega os filhos
-        const { children } = obj;
-        montaDom(children, element)
     }
 
-    if (type === "TextElem") {
-        pai.innerHTML = obj.textContent;
-    }
-}
-
-function montaDom(obj, pai) {
-
-    console.log("Acessando o Nó, " , ++no)
-
-    const { type } = obj; 
-
-    if (type === undefined) {
+    createComponent = () => {
         
-        if (Array.isArray(obj)) {
+        let component = html2json(document.getElementById("01"))
+        addComponent(component)
 
-            for (let key in obj) {
-                createElement(obj[key],pai)
-            }
+        console.log(components)
 
-        }
+        const root = document.getElementById("02")
+        domCreate(component,root)
+    }
 
-    } else {
-        createElement(obj,pai)
-    }    
-    
+
 }
 
-
-montaDom(obj,root)
-
+new Component().createComponent();

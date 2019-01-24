@@ -7,5 +7,17 @@ const htmlWebpackPlugin = new HtmlWebPackPlugin({
 
 module.exports = {
     devtool: 'inline-source-map',
-    plugins: [htmlWebpackPlugin]
+
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader"
+        }
+      },
+    ]
+  },
+  plugins: [htmlWebpackPlugin]
 };
